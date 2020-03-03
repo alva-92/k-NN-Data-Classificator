@@ -56,6 +56,7 @@ def calculate_euclidean_distance(x):
     for i in range(len(x) - 1):
         euclidean_distances.append(math.sqrt( (x[i][0] - d_point_1)**2 + (x[i][1] - d_point_2)**2 + (x[i][2] - d_point_3)**2 + (x[i][3] - d_point_4)**2 ))
 
+
 if __name__ == "__main__":
     open_csv_file('iris.csv')
     #open_arff_file('iris.arff')
