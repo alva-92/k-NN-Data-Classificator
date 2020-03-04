@@ -9,12 +9,10 @@ number_of_attributes = None
 dataset = None
 euclidean_distances = []
 pd_set = None
-d_point_1 = 7
-d_point_2 = 3.0
-d_point_3 = 4.5
-d_point_4 = 1.2
-
-col=['sepal_length','sepal_width','petal_length','petal_width','type']
+d_point_1 = 5.3
+d_point_2 = 3.7
+d_point_3 = 1.5
+d_point_4 = 0.2
 
 """
 This function opens and loads the data set provided as a arff file
@@ -37,11 +35,9 @@ def open_arff_file(file_name):
 This function opens and loads the data set provided as a CSV file
 """
 def open_csv_file(file_name):
-    global dataset
     global pd_set
     pd_set = panda.read_csv(file_name, sep=',', header=None)
-    dataset = panda.read_csv(file_name, sep=',').values
-    print(dataset)
+    print(pd_set)
 
 """
 Calculates the euclidean distance between the provided data 
@@ -53,14 +49,14 @@ def calculate_euclidean_distance(x):
     global d_point_2
     global d_point_3
     global d_point_4
-    for i in range(len(x) - 1):
-        euclidean_distances.append(math.sqrt( (x[i][0] - d_point_1)**2 + (x[i][1] - d_point_2)**2 + (x[i][2] - d_point_3)**2 + (x[i][3] - d_point_4)**2 ))
 
+    for i in range(len(x) - 2):
+        euclidean_distances.append(math.sqrt( (float(x[0][i+1]) - d_point_1)**2 + (float(x[1][i+1]) - d_point_2)**2 + (float(x[2][i+1]) - d_point_3)**2 + (float(x[3][i+1]) - d_point_4)**2 ))
 
 if __name__ == "__main__":
     open_csv_file('iris.csv')
     #open_arff_file('iris.arff')
-    calculate_euclidean_distance(dataset)
+    calculate_euclidean_distance(pd_set)
     distances = {}
     for x in range(len(euclidean_distances)):
         distances[x] = euclidean_distances[x]
@@ -80,17 +76,15 @@ if __name__ == "__main__":
     # Calculating the most freq class in the neighbors
     for x in range(len(neighbors)):
         response = pd_set.iloc[neighbors[x]][4]
-        print("Response")
-        print(neighbors[x], response)
         if response in counts:
             counts[response] += 1
         else:
             counts[response] = 1
   
-    print("Counts")
+    print("Total Counts")
     print(counts)
     sortedVotes = sorted(counts.items(), key=operator.itemgetter(1), reverse=True)
-    print("Sorted votes")
-    print(sortedVotes[0][0], neighbors)
+    print("Results:")
+    print("Identified as: " + sortedVotes[0][0], "\nClosest neighbors:", neighbors)
 
 
